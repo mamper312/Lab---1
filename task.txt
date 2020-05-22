@@ -1,78 +1,8 @@
-VS 2019.
-#include "matrix.h"
-int main() 
-{
-	setlocale(LC_ALL, "RUS");
-	srand(time(NULL));
-	int n = 0;
-	clock_t start, end;
-	double Det = 0;
-	int buffer = 0;
-	FILE *input;
-	Matrix matrix;
-	int A = 0;
-again:	printf("Ввести матрицу -- 1\nСоздать рандомную -- 2\nВвести с txt файла -- 3\n");
-	scanf_s("%d", &A);
-	system("cls");
-	if (A > 3 && A < 1)
-		goto again;
-	switch (A)
-	{
-	case 1:
-		printf("Введите размер матрицы n * n ::  ");
-		scanf_s("%d\n", &n);
-		matrix.string = (column*)malloc(sizeof(column) * n);
-		for (int i = 0; i < n; i++)
-		{
-			matrix.string[i].column = (double*)malloc(sizeof(double) * n);
-		}
-		for (int i = 0; i < n; i++)
-		{
-			for (int j = 0; j < n; j++)
-			{
-				i++;
-				j++;
-				printf("Введите элемент [  %d  ][  %d  ] === ", i, j);
-				i--;
-				j--;
-				scanf_s("%lf", &matrix.string[i].column[j]);
-			}
-			printf("\n");
-		}
-		break;
-	case 2:
-		n = 5000 + rand() % 5;
-		matrix.string = (column*)malloc(sizeof(column) * n);
-		for (int i = 0; i < n; i++)
-		{
-			matrix.string[i].column = (double*)malloc(sizeof(double) * n);
-		}
-		RandomMatrix(matrix,n);
-		break;
-	case 3:
-		fopen_s(&input, "C:\\Users\\mampe\\Desktop\\Лаба 1\\input.txt", "r+");
-		if (input == NULL)
-		{
-			return 3;
-		}
-		fscanf_s(input, "%d", &n);
-		matrix.string = (column*)malloc(sizeof(column) * n);
-		for (int i = 0; i < n; i++)
-		{
-			matrix.string[i].column = (double*)malloc(sizeof(double) * n);
-		}
-		MatrixFromFile(input, matrix, n);
-		break;
-	}
-   // OutputMatrix(matrix, n);
-    start = clock();
-	Det = MatrixDet(matrix,  n);
-	end = clock();
-	printf("==================================================================================\n");
-  //  OutputMatrix(matrix, n);
-	printf("\nDeterminant ===  %f\n", Det);
-	printf("\nДля вычисления детерминанта понадобилось %.4f\n", ((end - start) / CLOCKS_PER_SEC) );
-	FreeAll(matrix, n);
-	system("pause");
-	return 0;
-}
+VS 2019. Вычисляет больше минуты если 5000 строк
+Реализовать функцию вычисления определителя матрицы целых чисел.
+
+Матрицы хранить в виде Си структуры, например с именем Matrix.
+Разбить проект на модули main.c, matrix.h + matrix.c (внутри ввод,вывод,работа с матрицей, функция Determinant).
+Предусмотреть возможность ввода данных с клавиатуры, с файла, рандом.
+Предусмотреть подсчет времени вычисления.
+Для матриц какого размера время выполнения больше минуты?

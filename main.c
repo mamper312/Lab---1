@@ -40,7 +40,7 @@ again:	printf("Ввести матрицу -- 1\nСоздать рандомную -- 2\nВвести с txt файла -
 		}
 		break;
 	case 2:
-		n = 2500 + rand() % 5;
+		n = 5000 + rand() % 5;
 		matrix.string = (column*)malloc(sizeof(column) * n);
 		for (int i = 0; i < n; i++)
 		{
@@ -63,14 +63,14 @@ again:	printf("Ввести матрицу -- 1\nСоздать рандомную -- 2\nВвести с txt файла -
 		MatrixFromFile(input, matrix, n);
 		break;
 	}
-	//OutputMatrix(matrix, n);
+   // OutputMatrix(matrix, n);
     start = clock();
 	Det = MatrixDet(matrix,  n);
 	end = clock();
 	printf("==================================================================================\n");
-	//OutputMatrix(matrix, n);
+  //  OutputMatrix(matrix, n);
 	printf("\nDeterminant ===  %f\n", Det);
-//	printf("\nДля вычисления детерминанта понадобилось %.4f\n", ((end - start) / CLOCKS_PER_SEC) );
+	printf("\nДля вычисления детерминанта понадобилось %.4f\n", ((end - start) / CLOCKS_PER_SEC) );
 	FreeAll(matrix, n);
 	system("pause");
 	return 0;
