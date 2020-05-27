@@ -6,7 +6,7 @@ void OutputMatrix(Matrix matrix,int n)
 		for (int j = 0; j < n; j++)
 		{
 
-			printf("%.0f   ", matrix.string[i].column[j]);
+			printf("%d   ", matrix.string[i].column[j]);
 		}
 		printf("\n");
 	}
@@ -39,30 +39,59 @@ void FreeAll(Matrix matrix, int n)
 	}
 	free(matrix.string);
 }
-int MatrixDet(Matrix matrix, int n)
+void GetMatr(Matrix matrix, Matrix matrixbuf, int i, int j, int n)
 {
-	double koef = 0;
-	double Det = 1;
-	int y = 2;
-	int y1 = 2;
-	for (int i = 0; i < (n-1); i++)
-	{
-		y--;
-		while (y < n)
+	int di = 0, dj = 0;
+	for (int ki = 0; ki < (n - 1); ki++) 
+	{ 
+		if (ki == i)
 		{
-			koef = matrix.string[y].column[i] / matrix.string[i].column[i];
-			for (int j = 0; j < n; j++)
-			{
-				matrix.string[y].column[j] -= (matrix.string[i].column[j] * koef);
-			}
-			y++;
+			di = 1;
 		}
-		y1++;
-		y = y1;
+		for (int kj = 0; kj < (n - 1); kj++)
+		{ 
+			if (kj == j)
+			{
+				dj = 1;
+			}
+			matrixbuf.string[ki].column[kj] = matrix.string[ki + di].column[kj + dj];
+		}
 	}
+}
+
+int Determinant(Matrix matrix, int n)
+{
+	int i = 0, j = 0, k = 1, m = n - 1;
+	int Det = 0;
+	Matrix matrixbuf;
+	matrixbuf.string = (column*)malloc(sizeof(column) * n);
 	for (int i = 0; i < n; i++)
 	{
-		Det *= matrix.string[i].column[i];
+		matrixbuf.string[i].column = (int*)malloc(sizeof(int) * n);
+	}
+	if (n < 1)
+	{
+		printf("Невозможно посчитать");
+	}
+	if (n == 1) 
+	{
+		Det = matrix.string[0].column[0];
+		return Det;
+	} 
+	if (n == 2)
+	{
+		Det = matrix.string[0].column[0] * matrix.string[1].column[1] - (matrix.string[1].column[0] * matrix.string[0].column[1]);
+		return Det;
+	}
+	if (n > 2)
+	{
+		for (i; i < n; i++) 
+		{
+			GetMatr(matrix, matrixbuf, i, 0, n);
+			Det = Det + k * matrix.string[i].column[0] * Determinant(matrixbuf, m);
+			k = -k;
+		}
+		FreeAll(matrixbuf, n);
 	}
 	return Det;
 }

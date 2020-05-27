@@ -5,7 +5,7 @@ int main()
 	srand(time(NULL));
 	int n = 0;
 	clock_t start, end;
-	double Det = 0;
+	int Det = 0;
 	int buffer = 0;
 	FILE *input;
 	Matrix matrix;
@@ -23,7 +23,7 @@ again:	printf("¬вести матрицу -- 1\n—оздать рандомную -- 2\n¬вести с txt файла -
 		matrix.string = (column*)malloc(sizeof(column) * n);
 		for (int i = 0; i < n; i++)
 		{
-			matrix.string[i].column = (double*)malloc(sizeof(double) * n);
+			matrix.string[i].column = (int*)malloc(sizeof(int) * n);
 		}
 		for (int i = 0; i < n; i++)
 		{
@@ -34,17 +34,17 @@ again:	printf("¬вести матрицу -- 1\n—оздать рандомную -- 2\n¬вести с txt файла -
 				printf("¬ведите элемент [  %d  ][  %d  ] === ", i, j);
 				i--;
 				j--;
-				scanf_s("%lf", &matrix.string[i].column[j]);
+				scanf_s("%d", &matrix.string[i].column[j]);
 			}
 			printf("\n");
 		}
 		break;
 	case 2:
-		n = 5000 + rand() % 5;
+		n = 10;
 		matrix.string = (column*)malloc(sizeof(column) * n);
 		for (int i = 0; i < n; i++)
 		{
-			matrix.string[i].column = (double*)malloc(sizeof(double) * n);
+			matrix.string[i].column = (int*)malloc(sizeof(int) * n);
 		}
 		RandomMatrix(matrix,n);
 		break;
@@ -58,18 +58,18 @@ again:	printf("¬вести матрицу -- 1\n—оздать рандомную -- 2\n¬вести с txt файла -
 		matrix.string = (column*)malloc(sizeof(column) * n);
 		for (int i = 0; i < n; i++)
 		{
-			matrix.string[i].column = (double*)malloc(sizeof(double) * n);
+			matrix.string[i].column = (int*)malloc(sizeof(int) * n);
 		}
 		MatrixFromFile(input, matrix, n);
 		break;
 	}
-   // OutputMatrix(matrix, n);
+    OutputMatrix(matrix, n);
     start = clock();
-	Det = MatrixDet(matrix,  n);
+	Det = Determinant(matrix, n);
 	end = clock();
 	printf("==================================================================================\n");
   //  OutputMatrix(matrix, n);
-	printf("\nDeterminant ===  %f\n", Det);
+	printf("\nDeterminant ===  %d\n", Det);
 	printf("\nƒл€ вычислени€ детерминанта понадобилось %.4f\n", ((end - start) / CLOCKS_PER_SEC) );
 	FreeAll(matrix, n);
 	system("pause");
